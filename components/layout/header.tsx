@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useTheme } from "@/components/providers/theme-provider";
 import { Moon, Sun, Scissors } from "lucide-react";
-import { APP_NAME, IS_MARKETPLACE_MODE } from "@/lib/config";
+import { APP_NAME, IS_MARKETPLACE_MODE, IS_SINGLE_MODE } from "@/lib/config";
 
 export function Header() {
   const { theme, toggleTheme } = useTheme();
@@ -13,8 +14,25 @@ export function Header() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 text-xl font-bold">
-            <Scissors className="h-6 w-6" />
-            <span>{APP_NAME}</span>
+            {IS_MARKETPLACE_MODE ? (
+              <>
+                <Image
+                  src="/lubooking-logo.png"
+                  alt="LubooKing Logo"
+                  width={40}
+                  height={40}
+                  className="object-contain"
+                />
+                <span className="bg-gradient-to-r from-yellow-600 to-yellow-500 bg-clip-text text-transparent">
+                  {APP_NAME}
+                </span>
+              </>
+            ) : (
+              <>
+                <Scissors className="h-6 w-6" />
+                <span>{APP_NAME}</span>
+              </>
+            )}
           </Link>
 
           <nav className="flex items-center gap-6">

@@ -4,7 +4,7 @@ export const SINGLE_BARBER_SLUG =
 export const IS_SINGLE_MODE = APP_MODE === "single";
 export const IS_MARKETPLACE_MODE = APP_MODE === "marketplace";
 
-export const APP_NAME = IS_SINGLE_MODE ? "Luccifadez" : "Lubooking";
+export const APP_NAME = IS_SINGLE_MODE ? "Luccifadez" : "LubooKing";
 export const APP_DESCRIPTION = IS_SINGLE_MODE
   ? "Premium barber services by Luccifadez"
   : "Book your next haircut with top barbers";
