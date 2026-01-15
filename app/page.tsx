@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { Scissors, Calendar, Users, Sparkles, ArrowRight, CheckCircle } from "lucide-react";
+import {
+  Scissors,
+  Calendar,
+  Users,
+  Sparkles,
+  ArrowRight,
+  CheckCircle,
+} from "lucide-react";
 
 export default async function HomePage() {
   return (
@@ -11,9 +18,11 @@ export default async function HomePage() {
           <div className="max-w-4xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-4 py-2 rounded-full mb-6 border border-gray-200 dark:border-gray-700">
               <Sparkles className="h-4 w-4 text-yellow-500" />
-              <span className="text-sm font-medium">The Modern Booking Platform for Barbers</span>
+              <span className="text-sm font-medium">
+                The Modern Booking Platform for Barbers
+              </span>
             </div>
-            
+
             <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
               Your Barbershop,
               <br />
@@ -21,11 +30,12 @@ export default async function HomePage() {
                 Online in Minutes
               </span>
             </h1>
-            
+
             <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto">
-              Create a professional booking website for your barbershop. Accept bookings 24/7 and grow your business.
+              Create a professional booking website for your barbershop. Accept
+              bookings 24/7 and grow your business.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/register"
@@ -41,7 +51,7 @@ export default async function HomePage() {
                 Learn More
               </Link>
             </div>
-            
+
             <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-sm text-gray-600 dark:text-gray-400">
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-green-600" />
@@ -58,7 +68,7 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-        
+
         {/* Decorative elements */}
         <div className="absolute top-20 left-10 w-72 h-72 bg-yellow-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
         <div className="absolute top-40 right-10 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
@@ -71,7 +81,10 @@ export default async function HomePage() {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
               Everything You Need to
-              <span className="bg-gradient-to-r from-yellow-600 to-yellow-500 bg-clip-text text-transparent"> Succeed</span>
+              <span className="bg-gradient-to-r from-yellow-600 to-yellow-500 bg-clip-text text-transparent">
+                {" "}
+                Succeed
+              </span>
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
               Professional tools designed specifically for barbers and salons
@@ -86,7 +99,8 @@ export default async function HomePage() {
               </div>
               <h3 className="text-2xl font-bold mb-3">Online Booking</h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Let customers book appointments 24/7 from any device. Automatic confirmations and reminders included.
+                Let customers book appointments 24/7 from any device. Automatic
+                confirmations and reminders included.
               </p>
             </div>
 
@@ -97,7 +111,8 @@ export default async function HomePage() {
               </div>
               <h3 className="text-2xl font-bold mb-3">Service Management</h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Easily manage your services, prices, and duration. Show your best work with a beautiful gallery.
+                Easily manage your services, prices, and duration. Show your
+                best work with a beautiful gallery.
               </p>
             </div>
 
@@ -108,7 +123,8 @@ export default async function HomePage() {
               </div>
               <h3 className="text-2xl font-bold mb-3">Customer Management</h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Track customer history, preferences, and bookings. Build lasting relationships with your clients.
+                Track customer history, preferences, and bookings. Build lasting
+                relationships with your clients.
               </p>
             </div>
           </div>
@@ -120,7 +136,10 @@ export default async function HomePage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Get Started in <span className="bg-gradient-to-r from-yellow-600 to-yellow-500 bg-clip-text text-transparent">3 Simple Steps</span>
+              Get Started in{" "}
+              <span className="bg-gradient-to-r from-yellow-600 to-yellow-500 bg-clip-text text-transparent">
+                3 Simple Steps
+              </span>
             </h2>
           </div>
 
@@ -133,7 +152,8 @@ export default async function HomePage() {
               <div>
                 <h3 className="text-2xl font-bold mb-2">Create Your Account</h3>
                 <p className="text-gray-600 dark:text-gray-400 text-lg">
-                  Sign up in seconds with just your email. No credit card required.
+                  Sign up in seconds with just your email. No credit card
+                  required.
                 </p>
               </div>
             </div>
@@ -144,9 +164,12 @@ export default async function HomePage() {
                 2
               </div>
               <div>
-                <h3 className="text-2xl font-bold mb-2">Set Up Your Services</h3>
+                <h3 className="text-2xl font-bold mb-2">
+                  Set Up Your Services
+                </h3>
                 <p className="text-gray-600 dark:text-gray-400 text-lg">
-                  Add your services, prices, and working hours. Upload photos of your best work.
+                  Add your services, prices, and working hours. Upload photos of
+                  your best work.
                 </p>
               </div>
             </div>
@@ -157,9 +180,12 @@ export default async function HomePage() {
                 3
               </div>
               <div>
-                <h3 className="text-2xl font-bold mb-2">Start Taking Bookings</h3>
+                <h3 className="text-2xl font-bold mb-2">
+                  Start Taking Bookings
+                </h3>
                 <p className="text-gray-600 dark:text-gray-400 text-lg">
-                  Share your unique booking link and watch the appointments roll in!
+                  Share your unique booking link and watch the appointments roll
+                  in!
                 </p>
               </div>
             </div>
@@ -184,7 +210,8 @@ export default async function HomePage() {
             Ready to Grow Your Business?
           </h2>
           <p className="text-xl text-yellow-50 mb-10 max-w-2xl mx-auto">
-            Join hundreds of barbers who already use LubooKing to manage their bookings
+            Join hundreds of barbers who already use LubooKing to manage their
+            bookings
           </p>
           <Link
             href="/register"
@@ -195,79 +222,6 @@ export default async function HomePage() {
           </Link>
         </div>
       </section>
-    </div>
-  );
-}
-
-  return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="max-w-6xl mx-auto">
-        {/* Hero Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Find Your Perfect Barber
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Browse professional barbers in your area and book your next
-            appointment with ease
-          </p>
-        </div>
-
-        {/* Barbers Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {barbers.length === 0 ? (
-            <div className="col-span-full text-center py-12">
-              <Scissors className="h-16 w-16 mx-auto mb-4 text-gray-400" />
-              <p className="text-gray-600 dark:text-gray-400">
-                No barbers available yet. Check back soon!
-              </p>
-            </div>
-          ) : (
-            barbers.map((barber) => (
-              <Link
-                key={barber.id}
-                href={`/barbers/${barber.slug}`}
-                className="group"
-              >
-                <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                  {/* Logo */}
-                  <div className="aspect-square relative bg-gray-100 dark:bg-gray-800">
-                    {barber.logo_url ? (
-                      <Image
-                        src={barber.logo_url}
-                        alt={barber.shop_name}
-                        fill
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="flex items-center justify-center h-full">
-                        <Scissors className="h-16 w-16 text-gray-400" />
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Info */}
-                  <div className="p-4">
-                    <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400">
-                      {barber.shop_name}
-                    </h3>
-                    {(barber.city || barber.address) && (
-                      <div className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
-                        <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                        <span>
-                          {barber.city && barber.address
-                            ? `${barber.address}, ${barber.city}`
-                            : barber.city || barber.address}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </Link>
-            ))
-          )}
-        </div>
-      </div>
     </div>
   );
 }
