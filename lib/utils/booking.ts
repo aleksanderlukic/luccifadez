@@ -19,23 +19,27 @@ export interface TimeSlot {
  */
 export function generateTimeSlots(
   date: string, // YYYY-MM-DD
-  startTime: string, // HH:mm
-  endTime: string, // HH:mm
+  startTime: string, // HH:mm:ss or HH:mm
+  endTime: string, // HH:mm:ss or HH:mm
   durationMinutes: number,
-  bookedSlots: { starts_at: string; ends_at: string }[] = []
+  bookedSlots: { starts_at: string; ends_at: string }[] = [],
 ): TimeSlot[] {
   const slots: TimeSlot[] = [];
 
+  // Remove seconds if present (e.g., "09:00:00" -> "09:00")
+  const cleanStartTime = startTime.substring(0, 5);
+  const cleanEndTime = endTime.substring(0, 5);
+
   const dateStr = date;
   let currentTime = parse(
-    `${dateStr} ${startTime}`,
+    `${dateStr} ${cleanStartTime}`,
     "yyyy-MM-dd HH:mm",
-    new Date()
+    new Date(),
   );
   const endDateTime = parse(
-    `${dateStr} ${endTime}`,
+    `${dateStr} ${cleanEndTime}`,
     "yyyy-MM-dd HH:mm",
-    new Date()
+    new Date(),
   );
 
   while (isBefore(currentTime, endDateTime)) {

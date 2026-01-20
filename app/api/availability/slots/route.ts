@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (!barberId || !serviceId || !date) {
       return NextResponse.json(
         { error: "barberId, serviceId, and date are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -49,13 +49,18 @@ export async function GET(request: NextRequest) {
     const typedService = service as Service;
 
     // Get availability for this date
-    const { data: availability } = await supabase
+    console.log("Fetching availability for:", { barberId, date });
+
+    const { data: availability, error: availError } = await supabase
       .from("availability")
       .select("*")
       .eq("barber_id", barberId)
       .eq("date", date);
 
+    console.log("Availability query result:", { availability, availError });
+
     if (!availability || availability.length === 0) {
+      console.log("No availability found for this date");
       return NextResponse.json({ slots: [] });
     }
 
@@ -75,23 +80,37 @@ export async function GET(request: NextRequest) {
 
     const typedBookings = (bookings || []) as Booking[];
 
+    console.log("Generating slots for availability:", typedAvailability);
+    console.log("Service duration:", typedService.duration_minutes, "minutes");
+    console.log("Existing bookings:", typedBookings.length);
+
     // Generate slots from all availability ranges
     let allSlots: any[] = [];
 
     for (const avail of typedAvailability) {
+      console.log(
+        `Generating slots from ${avail.start_time} to ${avail.end_time}`,
+      );
+
       const slots = generateTimeSlots(
         date,
         avail.start_time,
         avail.end_time,
         typedService.duration_minutes,
-        typedBookings
+        typedBookings,
       );
+
+      console.log(`Generated ${slots.length} slots for this time range`);
+      console.log("Sample slots:", slots.slice(0, 3));
+
       allSlots = [...allSlots, ...slots];
     }
 
+    console.log("Total slots generated:", allSlots.length);
+
     // Sort by start time
     allSlots.sort(
-      (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime()
+      (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime(),
     );
 
     return NextResponse.json({ slots: allSlots });
@@ -99,7 +118,7 @@ export async function GET(request: NextRequest) {
     console.error("Error fetching time slots:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

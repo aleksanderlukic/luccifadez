@@ -35,10 +35,18 @@ export function TimeSelection({
     async function loadTimeSlots() {
       setLoading(true);
       try {
-        const response = await fetch(
-          `/api/availability/slots?barberId=${barberId}&serviceId=${serviceId}&date=${date}`
-        );
+        const url = `/api/availability/slots?barberId=${barberId}&serviceId=${serviceId}&date=${date}`;
+        console.log("Fetching time slots:", url);
+
+        const response = await fetch(url);
         const data = await response.json();
+
+        console.log("Time slots response:", data);
+        console.log(
+          "Available slots:",
+          data.slots?.filter((s: TimeSlot) => s.available),
+        );
+
         setTimeSlots(data.slots || []);
       } catch (error) {
         console.error("Error loading time slots:", error);

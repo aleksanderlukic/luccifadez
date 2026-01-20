@@ -216,19 +216,21 @@ export default async function BarberProfilePage({
           <div className="mb-12">
             <h2 className="text-2xl font-bold mb-6">Gallery</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {barber.gallery.map((image) => (
-                <div
-                  key={image.id}
-                  className="relative aspect-square rounded-lg overflow-hidden"
-                >
-                  <Image
-                    src={image.image_url}
-                    alt="Gallery"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              ))}
+              {barber.gallery
+                .filter((image) => image.image_url !== barber.logo_url)
+                .map((image) => (
+                  <div
+                    key={image.id}
+                    className="relative aspect-square rounded-lg overflow-hidden"
+                  >
+                    <Image
+                      src={image.image_url}
+                      alt="Gallery"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
             </div>
           </div>
         )}

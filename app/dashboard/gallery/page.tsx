@@ -15,7 +15,6 @@ import {
 interface GalleryImage {
   id: string;
   image_url: string;
-  caption: string | null;
   created_at: string;
 }
 
@@ -29,7 +28,6 @@ export default function DashboardGalleryPage() {
   const [logoUrl, setLogoUrl] = useState("");
   const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
-  const [caption, setCaption] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [uploadMethod, setUploadMethod] = useState<"url" | "file">("file");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -142,7 +140,7 @@ export default function DashboardGalleryPage() {
             uploadError.message.includes("Bucket")
           ) {
             throw new Error(
-              "Storage bucket not configured. Please create a PUBLIC 'gallery-images' bucket in Supabase Storage: https://supabase.com/dashboard/project/rltahfuykkiietwudvkg/storage/buckets"
+              "Storage bucket not configured. Please create a PUBLIC 'gallery-images' bucket in Supabase Storage: https://supabase.com/dashboard/project/rltahfuykkiietwudvkg/storage/buckets",
             );
           }
           throw uploadError;
@@ -168,26 +166,30 @@ export default function DashboardGalleryPage() {
       }
 
       console.log("Saving to database:", finalImageUrl);
+      console.log("Barber ID:", barberId);
 
       // Save to database
-      const { error: dbError } = await (
+      const { data: insertData, error: dbError } = await (
         supabase.from("gallery_images") as any
       ).insert({
         barber_id: barberId,
         image_url: finalImageUrl,
-        caption: caption || null,
       });
 
       if (dbError) {
         console.error("Database error:", dbError);
-        throw dbError;
+        console.error("Full error details:", JSON.stringify(dbError, null, 2));
+        throw new Error(
+          `Database error: ${dbError.message || JSON.stringify(dbError)}`,
+        );
       }
+
+      console.log("Insert data:", insertData);
 
       console.log("Image saved successfully!");
 
       // Reset form
       setImageUrl("");
-      setCaption("");
       setSelectedFile(null);
       await loadImages(barberId);
     } catch (err: any) {
@@ -321,6 +323,7 @@ export default function DashboardGalleryPage() {
                   Select Image File
                 </label>
                 <input
+                  key={selectedFile?.name || "file-input"}
                   type="file"
                   accept="image/*"
                   onChange={(e) => {
@@ -361,20 +364,6 @@ export default function DashboardGalleryPage() {
               </div>
             )}
 
-            <div>
-              <label className="block text-sm font-medium mb-2">
-                Caption (Optional)
-              </label>
-              <input
-                type="text"
-                value={caption}
-                onChange={(e) => setCaption(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
-                placeholder="Fresh fade..."
-                disabled={uploading}
-              />
-            </div>
-
             <Button type="submit" disabled={uploading}>
               {uploading ? (
                 <>
@@ -403,54 +392,49 @@ export default function DashboardGalleryPage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {images.map((image) => (
-                <div
-                  key={image.id}
-                  className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden group"
-                >
-                  <div className="relative aspect-square">
-                    <img
-                      src={image.image_url}
-                      alt={image.caption || "Gallery image"}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src =
-                          "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%23ddd' width='400' height='400'/%3E%3Ctext fill='%23999' x='50%25' y='50%25' text-anchor='middle' dy='.3em' font-size='20'%3EImage not found%3C/text%3E%3C/svg%3E";
-                      }}
-                    />
-                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
-                      {logoUrl !== image.image_url && (
+              {images
+                .filter((image) => image.image_url !== logoUrl)
+                .map((image) => (
+                  <div
+                    key={image.id}
+                    className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden group"
+                  >
+                    <div className="relative aspect-square">
+                      <img
+                        src={image.image_url}
+                        alt="Gallery image"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src =
+                            "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%23ddd' width='400' height='400'/%3E%3Ctext fill='%23999' x='50%25' y='50%25' text-anchor='middle' dy='.3em' font-size='20'%3EImage not found%3C/text%3E%3C/svg%3E";
+                        }}
+                      />
+                      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
+                        {logoUrl !== image.image_url && (
+                          <button
+                            onClick={() => handleSetLogo(image.image_url)}
+                            className="p-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+                            title="Set as logo"
+                          >
+                            <Star className="h-4 w-4" />
+                          </button>
+                        )}
                         <button
-                          onClick={() => handleSetLogo(image.image_url)}
-                          className="p-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
-                          title="Set as logo"
+                          onClick={() => handleDelete(image.id)}
+                          className="p-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
                         >
-                          <Star className="h-4 w-4" />
+                          <Trash2 className="h-4 w-4" />
                         </button>
-                      )}
-                      <button
-                        onClick={() => handleDelete(image.id)}
-                        className="p-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    </div>
-                    {logoUrl === image.image_url && (
-                      <div className="absolute top-2 left-2 bg-yellow-500 text-white px-2 py-1 rounded text-xs font-medium flex items-center gap-1">
-                        <Star className="h-3 w-3" />
-                        Logo
                       </div>
-                    )}
-                  </div>
-                  {image.caption && (
-                    <div className="p-3">
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        {image.caption}
-                      </p>
+                      {logoUrl === image.image_url && (
+                        <div className="absolute top-2 left-2 bg-yellow-500 text-white px-2 py-1 rounded text-xs font-medium flex items-center gap-1">
+                          <Star className="h-3 w-3" />
+                          Logo
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              ))}
+                  </div>
+                ))}
             </div>
           )}
         </div>
